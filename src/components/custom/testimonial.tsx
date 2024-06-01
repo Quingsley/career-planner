@@ -55,7 +55,7 @@ export function Testimonials() {
           <CarouselContent>
             {" "}
             {testimonialExample.map(testimonial => (
-              <CarouselItem>
+              <CarouselItem key={testimonial.name}>
                 <div className="flex flex-col items-center gap-6 p-6 md:flex-row md:gap-8">
                   <Avatar className="h-16 w-16 border">
                     <img src={testimonial.imageUrl} alt={testimonial.name} />
