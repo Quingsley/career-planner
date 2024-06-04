@@ -13,6 +13,8 @@ const initialState: UserState = {
   exp: undefined,
   userId: undefined,
   isEmailVerified: undefined,
+  isProfileSetup: undefined,
+  refreshTknExpTime: undefined,
 };
 
 export const counterSlice = createSlice({
@@ -23,6 +25,7 @@ export const counterSlice = createSlice({
     // Use the PayloadAction type to declare the contents of `action.payload`
     setUser: (state, action: PayloadAction<UserState>) => {
       state = action.payload;
+      return state;
     },
   },
 });
