@@ -1,19 +1,33 @@
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import { Layout } from "./layout";
 import Auth from "./pages/auth/auth_page";
+import { DashBoard } from "./pages/dashboard/dashboard";
+import { ErrorPage } from "./pages/error-page";
 import { LandingPage } from "./pages/landing-page";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Provider } from "react-redux";
-import { store } from "./store";
+import { ProfileSetUp } from "./pages/profile/profile-setup";
+import { persistor, store } from "./store";
 
 const routes = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <LandingPage /> },
       {
         path: "/auth",
         element: <Auth />,
+      },
+      {
+        path: "/profile-setup",
+        element: <ProfileSetUp />,
+      },
+      {
+        path: "/dashboard",
+        element: <DashBoard />,
       },
     ],
   },
@@ -21,7 +35,9 @@ const routes = createBrowserRouter([
 function App() {
   return (
     <Provider store={store}>
-      <RouterProvider router={routes} />;
+      <PersistGate persistor={persistor}>
+        <RouterProvider router={routes} />;
+      </PersistGate>
     </Provider>
   );
 }
