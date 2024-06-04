@@ -15,6 +15,7 @@ import { setUser } from "../../store/slices/user-slice";
 import { useToast } from "../../components/ui/use-toast";
 import { InputCode } from "./input-code";
 import { ForgotPassword } from "./forgot-password";
+import { useNavigate } from "react-router-dom";
 
 export function SignInTab({ errorComponent }: { errorComponent: JSX.Element }) {
   const [signIn, { isLoading }] = useSignInMutation();
@@ -25,6 +26,7 @@ export function SignInTab({ errorComponent }: { errorComponent: JSX.Element }) {
   const [showAlert, setShowAlert] = useState(false);
   const dispatch = useAppDispatch();
   const { toast } = useToast();
+  const navigation = useNavigate();
   const {
     register,
     handleSubmit,
@@ -37,13 +39,31 @@ export function SignInTab({ errorComponent }: { errorComponent: JSX.Element }) {
 
     if ("data" in result && result.data) {
       const { accessToken, refreshToken } = result.data;
-      const data = jwtDecode<Omit<UserState, "refreshToken">>(accessToken);
+      const data = jwtDecode<Omit<UserState, "refreshToken" | "refreshTknExpTime">>(accessToken);
+      const decoded = jwtDecode(refreshToken);
+      if (!decoded.exp) return;
       if (!data.isEmailVerified) {
         setUnverifiedEmail(data.email);
         setShowAlert(true);
         return;
       }
-      dispatch(setUser({ ...data, refreshToken }));
+      if (!data.exp) return;
+      dispatch(
+        setUser({
+          ...data,
+          exp: Date.now() + data.exp * 1000,
+          refreshTknExpTime: Date.now() + decoded.exp * 1000,
+          refreshToken,
+          accessToken,
+        }),
+      );
+
+      if (!data.isProfileSetup) {
+        navigation("/profile-setup");
+        return;
+      }
+
+      navigation("/home");
 
       //find a way to clear the inputs
 
@@ -85,12 +105,20 @@ export function SignInTab({ errorComponent }: { errorComponent: JSX.Element }) {
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
-          <Input className={`${errors.password && "border-red-500"}`} id="password" {...register("password", { required: true })} type="password" />
+          <Input
+            className={`${errors.password && "border-red-500"}`}
+            id="password"
+            {...register("password", { required: true })}
+            type="password"
+          />
           {errors.password && errorComponent}
         </div>
         <div className=" flex flex-row space-y-2 mt-4">
           <div className="flex-grow"></div>
-          <p onClick={() => setForgotPassword(true)} className="text-sm font-medium cursor-pointer hover:underline underline-offset-4">
+          <p
+            onClick={() => setForgotPassword(true)}
+            className="text-sm font-medium cursor-pointer hover:underline underline-offset-4"
+          >
             Forgot Password
           </p>
         </div>
@@ -108,7 +136,14 @@ export function SignInTab({ errorComponent }: { errorComponent: JSX.Element }) {
           />
         )}
       </form>
-      {showOTPDialogue && unverifiedEmail && <InputCode email={unverifiedEmail} onClose={() => setShowOTPDialogue(false)} open={showOTPDialogue} type={VerificationType.EMAIL} />}
+      {showOTPDialogue && unverifiedEmail && (
+        <InputCode
+          email={unverifiedEmail}
+          onClose={() => setShowOTPDialogue(false)}
+          open={showOTPDialogue}
+          type={VerificationType.EMAIL}
+        />
+      )}
       {forgotPassword && <ForgotPassword open={forgotPassword} onClose={() => setForgotPassword(false)} />}
     </>
   );
