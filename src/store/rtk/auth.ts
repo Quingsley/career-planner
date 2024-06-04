@@ -1,10 +1,11 @@
+import { BASE_URL } from "../../constants";
 import { SignInData, SignUpData, VerificationType } from "../../common";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Define a service using a base URL and expected endpoints
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4000", timeout: 10000 }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL, timeout: 10000 }),
   endpoints: builder => ({
     signIn: builder.mutation<{ accessToken: string; refreshToken: string }, SignInData>({
       query: data => ({
