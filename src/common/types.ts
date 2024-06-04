@@ -7,6 +7,8 @@ export interface UserState {
   userId: string | undefined;
   refreshToken: string | undefined;
   isEmailVerified: boolean | undefined;
+  isProfileSetup: boolean | undefined;
+  refreshTknExpTime: number | undefined;
 }
 
 export interface SignUpData {
@@ -27,4 +29,31 @@ export interface HttpErrorRes {
 export enum VerificationType {
   EMAIL = "email",
   PASSWORD = "password",
+}
+
+export interface ProfileDataState {
+  _id?: string;
+  description?: string;
+  userId?: string;
+  skills: string[];
+  careerInterests: string[];
+  education: EducationData[];
+  workExperience: Work[];
+}
+
+export interface EducationData {
+  isCurrent: boolean;
+  startDate: string;
+  endDate: string;
+  course: string;
+  type: string;
+  school: string;
+}
+
+export interface Work {
+  isCurrent: boolean;
+  startDate: string;
+  endDate: string;
+  company: string;
+  position: string;
 }
