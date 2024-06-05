@@ -1,12 +1,16 @@
 import { useState } from "react";
+import { Sparkles } from "lucide-react";
 
 import { Button } from "../../components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import { Education } from "./education";
 import { SkillSetInterest } from "./skill-set-interest";
 import { WorkExperience } from "./work-experience";
-import { useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useToast } from "../../components/ui/use-toast";
+import { useCareerSuggestionMutation } from "../../store/rtk";
+import { errorHandler } from "../../error";
+import { addCareer } from "../../store/slices/career-slice";
 
 enum ProfileTabs {
   Education = "education",
@@ -17,7 +21,29 @@ enum ProfileTabs {
 export function ProfileSetUp() {
   const [activeTab, setActiveTab] = useState<ProfileTabs>(ProfileTabs.Education);
   const education = useAppSelector(state => state.profile.education);
+  const profile = useAppSelector(state => state.profile);
+  const dispatch = useAppDispatch();
+  const [careerSuggestion, { isLoading }] = useCareerSuggestionMutation();
   const { toast } = useToast();
+
+  const careerSuggestionHandler = async () => {
+    const profileId = profile._id;
+    if (!profileId) {
+      toast({
+        title: "Profile not found",
+        description: "Please complete your profile setup",
+        variant: "destructive",
+      });
+      return;
+    }
+    const result = await careerSuggestion({ profileId });
+    if ("data" in result) {
+      console.log(result.data);
+      if (result.data) dispatch(addCareer(result.data));
+    } else {
+      return errorHandler(result.error);
+    }
+  };
 
   function onTabChange(value: string) {
     if (activeTab === ProfileTabs.Education) {
@@ -74,7 +100,14 @@ export function ProfileSetUp() {
           <Button variant="outline" onClick={handlePreviousClick}>
             Previous
           </Button>
-          <Button onClick={handleNextClick}>Next</Button>
+
+          <Button
+            disabled={isLoading}
+            onClick={activeTab === ProfileTabs.Interests ? careerSuggestionHandler : handleNextClick}
+          >
+            {activeTab === ProfileTabs.Interests && <Sparkles className={`mr-1 ${isLoading && "animate-spin"}`} />}
+            {activeTab === ProfileTabs.Interests ? "Generate Careers" : "Next"}
+          </Button>
         </div>
       </div>
       <Tabs defaultValue={activeTab} value={activeTab} className="w-full" onValueChange={onTabChange}>
