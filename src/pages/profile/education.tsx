@@ -19,6 +19,7 @@ const initialState: EducationData = {
   startDate: "",
   endDate: "",
   isCurrent: false,
+  _id: "",
 };
 export function Education() {
   const education = useAppSelector(state => state.profile.education);

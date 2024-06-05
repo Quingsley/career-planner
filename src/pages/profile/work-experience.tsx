@@ -18,6 +18,7 @@ const initialState: Work = {
   startDate: "",
   endDate: "",
   isCurrent: false,
+  _id: "",
 };
 
 export function WorkExperience() {
