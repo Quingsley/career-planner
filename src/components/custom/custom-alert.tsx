@@ -25,7 +25,6 @@ export function CustomAlert(props: Props) {
   const { onClose, title, description, onProceed, isOpen, loading, buttonTitle } = props;
   return (
     <AlertDialog onOpenChange={onClose} open={isOpen} defaultOpen={isOpen}>
-      {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
