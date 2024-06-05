@@ -1,14 +1,14 @@
 export function AboutSection() {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
+    <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">Key Features</div>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Discover Your Career Path</h2>
             <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-              Our AI-powered platform helps you explore your skills, interests, and values to find the perfect career fit. Get personalized
-              recommendations and support throughout your job search.
+              Our AI-powered platform helps you explore your skills, interests, and values to find the perfect career
+              fit. Get personalized recommendations and support throughout your job search.
             </p>
           </div>
         </div>
@@ -35,7 +35,8 @@ export function AboutSection() {
                 <div className="grid gap-1">
                   <h3 className="text-xl font-bold">Job Search Support</h3>
                   <p className="text-gray-500 dark:text-gray-400">
-                    Receive guidance on crafting your resume, preparing for interviews, and navigating the job application process.
+                    Receive guidance on crafting your resume, preparing for interviews, and navigating the job
+                    application process.
                   </p>
                 </div>
               </li>

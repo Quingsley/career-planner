@@ -10,17 +10,6 @@ import { LandingPage } from "./pages/landing-page";
 import { ProfileSetUp } from "./pages/profile/profile-setup";
 import { persistor, store } from "./store";
 
-// BAD PATTERN FIGURE OUT BETTER WAY FOR ROUTE PROTECTION
-function checkUser() {
-  const user = store.getState().user;
-  if (user.userId) {
-    return true;
-  }
-  return false;
-}
-
-const isLoggedIn = checkUser();
-
 const routes = createBrowserRouter([
   {
     path: "/",
