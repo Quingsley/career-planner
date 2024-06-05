@@ -51,8 +51,8 @@ export function SignInTab({ errorComponent }: { errorComponent: JSX.Element }) {
       dispatch(
         setUser({
           ...data,
-          exp: Date.now() + data.exp * 1000,
-          refreshTknExpTime: Date.now() + decoded.exp * 1000,
+          exp: data.exp * 1000,
+          refreshTknExpTime: decoded.exp * 1000,
           refreshToken,
           accessToken,
         }),
@@ -63,7 +63,7 @@ export function SignInTab({ errorComponent }: { errorComponent: JSX.Element }) {
         return;
       }
 
-      navigation("/home");
+      navigation("/dashboard");
 
       //find a way to clear the inputs
 

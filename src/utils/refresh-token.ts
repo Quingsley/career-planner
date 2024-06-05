@@ -54,8 +54,8 @@ async function refresh(refreshToken: string, user: UserState) {
     ...user,
     accessToken: data.accessToken,
     refreshToken: data.refreshToken,
-    refreshTknExpTime: Date.now() + decoded1.exp * 1000,
-    exp: Date.now() + decoded.exp * 1000,
+    refreshTknExpTime: decoded1.exp * 1000,
+    exp: decoded.exp * 1000,
   };
 
   store.dispatch(setUser(updatedUser));
