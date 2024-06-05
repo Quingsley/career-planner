@@ -48,6 +48,7 @@ export interface EducationData {
   course: string;
   type: string;
   school: string;
+  _id: string;
 }
 
 export interface Work {
@@ -56,4 +57,20 @@ export interface Work {
   endDate: string;
   company: string;
   position: string;
+  _id: string;
+}
+
+export interface CareerDetails {
+  jobTitle: string;
+  jobDescription: string;
+  timeline: string;
+  salaryRange: string;
+  difficulty: string;
+}
+
+export interface RoadMapResponse {
+  workRequired: string;
+  reasonItsAGoodFit: string[];
+  aboutTheRole: string;
+  roadmap: Array<Record<string, string>>;
 }
