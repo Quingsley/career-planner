@@ -10,12 +10,13 @@ import { Textarea } from "../../components/ui/textarea";
 import { useToast } from "../../components/ui/use-toast";
 import { errorHandler } from "../../error";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { useCreateProfileMutation } from "../../store/rtk";
+import { useCreateProfileMutation, useUpdateProfileMutation } from "../../store/rtk";
 import { addSelectedCareers, addSelectedSkills, setDescription, setId } from "../../store/slices/profile-slice";
 
 export function SkillSetInterest() {
-  const [selectedCareers, setSelectedCareers] = useState<string[]>([]);
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const { careerInterests: crI, skills: skls } = useAppSelector(state => state.profile); // used when updating
+  const [selectedCareers, setSelectedCareers] = useState<string[]>(crI);
+  const [selectedSkills, setSelectedSkills] = useState<string[]>(skls);
   const [careerDescription, setCareerDescription] = useState<string>();
   const dispatch = useAppDispatch();
   const { toast } = useToast();
@@ -23,8 +24,9 @@ export function SkillSetInterest() {
   const user = useAppSelector(state => state.user);
   const navigation = useNavigate();
   const [createProfile, { isLoading }] = useCreateProfileMutation();
+  const [updateProfile, { isLoading: loading }] = useUpdateProfileMutation();
 
-  const generateCareers = async () => {
+  const profileHandler = async () => {
     dispatch(setDescription(careerDescription));
 
     if (selectedCareers.length === 0 || selectedSkills.length === 0) {
@@ -46,20 +48,31 @@ export function SkillSetInterest() {
       description: careerDescription,
       userId: user.userId,
     };
-    const result = await createProfile(data);
-    if ("data" in result && result.data) {
-      const { data } = result;
-      if (data._id) dispatch(setId({ _id: data._id, userId: user.userId! }));
+    if (!profile._id && !profile.userId) {
+      // create
+      const result = await createProfile(data);
+      if ("data" in result && result.data) {
+        const { data } = result;
+        if (data._id) dispatch(setId({ _id: data._id, userId: user.userId! }));
 
-      setDescription("");
-      setSelectedCareers([]);
-      setSelectedSkills([]);
-
-      toast({ title: "Success", description: "Profile created successfully" });
-      navigation("/dashboard");
+        toast({ title: "Success", description: "Profile created successfully" });
+        navigation("/dashboard");
+      } else {
+        return errorHandler(result.error);
+      }
     } else {
-      return errorHandler(result.error);
+      // update
+      const result = await updateProfile(data);
+      if ("data" in result && result.data) {
+        toast({ title: "Success", description: "Profile updated successfully\n You can generate new careers!" });
+        // navigation("/dashboard");
+      } else {
+        return errorHandler(result.error);
+      }
     }
+    setDescription("");
+    setSelectedCareers([]);
+    setSelectedSkills([]);
   };
 
   const onTapCareerHandler = (index: number) => {
@@ -118,9 +131,9 @@ export function SkillSetInterest() {
           placeholder="Give a description of the career that you would like to transition into"
         />
       </div>
-      <Button disabled={isLoading} onClick={generateCareers}>
-        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        <Save className="mr-1" /> Save Profile
+      <Button disabled={isLoading || loading} onClick={profileHandler}>
+        {(isLoading || loading) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        <Save className="mr-1" /> {profile._id && profile.userId ? "Update Profile" : "Save Profile"}
       </Button>
     </div>
   );
