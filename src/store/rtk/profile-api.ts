@@ -11,7 +11,7 @@ export const profileApi = createApi({
     prepareHeaders: async headers => await appendAuthHeader(headers),
   }),
   endpoints: builder => ({
-    getProfile: builder.query<string, string>({
+    getProfile: builder.query<ProfileDataState, string>({
       query: data => `/profile/${data}`,
     }),
     createProfile: builder.mutation<ProfileDataState, ProfileDataState>({
@@ -21,7 +21,14 @@ export const profileApi = createApi({
         body,
       }),
     }),
+    updateProfile: builder.mutation<ProfileDataState, ProfileDataState>({
+      query: body => ({
+        url: "/update-profile",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useCreateProfileMutation, useGetProfileQuery } = profileApi;
+export const { useCreateProfileMutation, useGetProfileQuery, useUpdateProfileMutation } = profileApi;

@@ -40,6 +40,11 @@ const profileSlice = createSlice({
     addSelectedSkills: (state, action: PayloadAction<string[]>) => {
       state.skills.push(...action.payload);
     },
+    // from serve side
+    addProfile: (state, action: PayloadAction<ProfileDataState>) => {
+      state = action.payload;
+      return state;
+    },
   },
 });
 
@@ -51,6 +56,7 @@ export const {
   setDescription,
   deleteEducation,
   deleteWork,
+  addProfile,
   setId,
 } = profileSlice.actions;
 export const profileReducer = profileSlice.reducer;
