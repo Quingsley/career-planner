@@ -9,6 +9,8 @@ import { ErrorPage } from "./pages/error-page";
 import { LandingPage } from "./pages/landing-page";
 import { ProfileSetUp } from "./pages/profile/profile-setup";
 import { persistor, store } from "./store";
+import { FileUploader } from "./pages/file-uploader/file-uploader";
+import { EXploreCareers } from "./pages/file-uploader/explore-careers";
 
 const routes = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ const routes = createBrowserRouter([
       {
         path: "/dashboard",
         element: <DashBoard />,
+      },
+      {
+        path: "/cv-uploader",
+        element: <FileUploader />,
+      },
+      {
+        path: "/explore-careers",
+        element: <EXploreCareers />,
       },
     ],
   },

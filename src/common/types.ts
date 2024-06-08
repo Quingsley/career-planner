@@ -9,6 +9,7 @@ export interface UserState {
   isEmailVerified: boolean | undefined;
   isProfileSetup: boolean | undefined;
   refreshTknExpTime: number | undefined;
+  isLoggedIn: boolean;
 }
 
 export interface SignUpData {
@@ -73,4 +74,11 @@ export interface RoadMapResponse {
   reasonItsAGoodFit: string[];
   aboutTheRole: string;
   roadmap: Array<Record<string, string>>;
+}
+
+export interface ResumeData {
+  resume: string;
+  description?: string;
+  skills: string[];
+  careerInterests: string[];
 }
