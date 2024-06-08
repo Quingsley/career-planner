@@ -11,24 +11,24 @@ interface Testimonial {
 
 const testimonialExample: Testimonial[] = [
   {
-    name: "Sarah Johnson",
-    testimonial: "The customer service I received was exceptional. The support team went above and beyond to address my concerns.",
-    imageUrl: "https://randomuser.me/api/portraits/women/5.jpg",
-    title: "Marketing Manager, Acme Inc.",
+    name: "Steve Jobs",
+    testimonial:
+      "The only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle",
+    imageUrl: "https://startupbros.com/wp-content/uploads/2013/07/steve-jobs.jpg",
+    title: "Co-founder of Apple Inc",
   },
   {
-    name: "Emily Parker",
-    testimonial:
-      "The platform has been a game-changer for our team. The automation and collaboration features have streamlined our workflow and       helped us ship features faster.",
-    imageUrl: "https://randomuser.me/api/portraits/women/2.jpg",
-    title: "Software Engineer, Acme Inc.",
+    name: "George Elliot",
+    testimonial: "It is never too late to be what you might have been",
+    imageUrl:
+      "https://www.thoughtco.com/thmb/feRbTmeaTUXsf94pVaPQ2r3H7p4=/275x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-96800347-fec7d0218d38443eb8005311bfa79094.jpg",
+    title: "English novelist",
   },
   {
-    name: "Alan Smith",
-    testimonial:
-      "The platform has been a game-changer for our team. The automation and collaboration features have streamlined our workflow and       helped us ship features faster.",
-    imageUrl: "https://randomuser.me/api/portraits/men/1.jpg",
-    title: "Product Manager, Acme Inc.",
+    name: "Maya Angelou",
+    testimonial: "If you don't like something, change it. If you can't change it, change your attitude.",
+    imageUrl: "https://img.freepik.com/premium-photo/maya-angelou-icon_889461-2161.jpg",
+    title: "Poet and Civil Rights Activist",
   },
 ];
 
@@ -36,7 +36,7 @@ export function Testimonials() {
   return (
     <div className="mx-auto max-w-2xl py-12 md:py-16 lg:py-20">
       <div className="space-y-4 text-center">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">What Our Customers Say</h2>
+        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">What They Would Say</h2>
         <p className="text-lg text-gray-500 dark:text-gray-400">Hear from the people who love our product.</p>
       </div>
       <div className="mt-10">
@@ -59,7 +59,7 @@ export function Testimonials() {
                 <div className="flex flex-col items-center gap-6 p-6 md:flex-row md:gap-8">
                   <Avatar className="h-16 w-16 border">
                     <img src={testimonial.imageUrl} alt={testimonial.name} />
-                    <AvatarFallback>SJ</AvatarFallback>
+                    <AvatarFallback>{testimonial.name[0]}</AvatarFallback>
                   </Avatar>
                   <div className="space-y-2 text-center md:text-left">
                     <h3 className="text-xl font-semibold">{testimonial.name}</h3>
