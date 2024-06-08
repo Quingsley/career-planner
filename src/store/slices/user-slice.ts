@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserState } from "../../common";
+import { PURGE } from "redux-persist";
 
 // Define a type for the slice state
 
@@ -15,6 +16,7 @@ const initialState: UserState = {
   isEmailVerified: undefined,
   isProfileSetup: undefined,
   refreshTknExpTime: undefined,
+  isLoggedIn: false,
 };
 
 export const counterSlice = createSlice({
@@ -27,9 +29,16 @@ export const counterSlice = createSlice({
       state = action.payload;
       return state;
     },
+    login: (state, action: PayloadAction<boolean>) => {
+      state.isLoggedIn = action.payload;
+      return state;
+    },
+  },
+  extraReducers: builder => {
+    builder.addCase(PURGE, () => initialState);
   },
 });
 
-export const { setUser } = counterSlice.actions;
+export const { setUser, login } = counterSlice.actions;
 
 export const userReducer = counterSlice.reducer;

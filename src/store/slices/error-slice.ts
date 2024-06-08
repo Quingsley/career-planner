@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PURGE } from 'redux-persist';
 
 const initialState: string[] = [];
 
@@ -16,6 +17,9 @@ const errorSlice = createSlice({
       state.splice(index, 1);
       return state;
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(PURGE, () => initialState);
   },
 });
 

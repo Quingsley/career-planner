@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CareerDetails } from "../../common";
+import { PURGE } from "redux-persist";
 
 const initialState: CareerDetails[] = [];
 
@@ -16,6 +17,9 @@ const careerSlice = createSlice({
     removeAll: state => {
       state = [];
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(PURGE, () => initialState);
   },
 });
 

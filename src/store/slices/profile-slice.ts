@@ -1,3 +1,4 @@
+import { PURGE } from "redux-persist";
 import { EducationData, ProfileDataState, Work } from "../../common";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -45,6 +46,9 @@ const profileSlice = createSlice({
       state = action.payload;
       return state;
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(PURGE, () => initialState);
   },
 });
 
