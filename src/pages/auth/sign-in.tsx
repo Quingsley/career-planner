@@ -11,7 +11,7 @@ import { Label } from "../../components/ui/label";
 import { errorHandler } from "../../error";
 import { useAppDispatch } from "../../hooks";
 import { useSendCodeMutation, useSignInMutation } from "../../store/rtk";
-import { setUser } from "../../store/slices/user-slice";
+import { setUser, login } from "../../store/slices/user-slice";
 import { useToast } from "../../components/ui/use-toast";
 import { InputCode } from "./input-code";
 import { ForgotPassword } from "./forgot-password";
@@ -56,6 +56,7 @@ export function SignInTab({ errorComponent }: { errorComponent: JSX.Element }) {
           refreshToken,
           accessToken,
         }),
+        dispatch(login(true)),
       );
 
       if (!data.isProfileSetup) {
