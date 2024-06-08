@@ -12,6 +12,7 @@ export function Layout() {
   const errors = useAppSelector(state => state.error);
   const dispatch = useAppDispatch();
   const { toast } = useToast();
+
   useEffect(() => {
     if (errors.length > 0) {
       errors.forEach(error => {
