@@ -9,9 +9,13 @@ export function Header() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const logoutHandler = () => {
-    dispatch({ type: "CLEAR_APP" });
-    navigate("/");
+  const authHandler = () => {
+    if (user.userId) {
+      dispatch({ type: "CLEAR_APP" });
+      navigate("/");
+    } else {
+      navigate("/auth");
+    }
   };
 
   return (
@@ -36,11 +40,7 @@ export function Header() {
             Dashboard
           </Button>
         )}
-        <Button
-          onClick={logoutHandler}
-          className="text-sm font-medium hover:underline underline-offset-4"
-          variant="link"
-        >
+        <Button onClick={authHandler} className="text-sm font-medium hover:underline underline-offset-4" variant="link">
           {user.userId ? "LOG OUT" : "Login"}
         </Button>
       </nav>
