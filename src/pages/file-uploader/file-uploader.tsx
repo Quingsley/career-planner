@@ -56,6 +56,11 @@ export function FileUploader() {
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+
+    if (file?.type !== "application/pdf") {
+      return errorHandler({ message: "Only PDF files are allowed" });
+    }
+
     setPickedFile(file?.name);
     if (file) {
       const pdfText = await pdfToText(file);
@@ -74,7 +79,6 @@ export function FileUploader() {
         return errorHandler(results.error);
       }
     }
-    // do something with event data
   };
 
   const handleButtonClick = () => {
